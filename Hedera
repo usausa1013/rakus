@@ -1,0 +1,51 @@
+const {
+    Client,
+    PrivateKey,
+    AccountCreateTransaction,
+    AccountBalanceQuery,
+    TransferTransaction,
+    Hbar
+} = require("@hashgraph/sdk");
+
+async function main() {
+    // テストネットのクライアントを作成します
+    const client = Client.forTestnet();
+    client.setOperator(process.env.MY_ACCOUNT_ID, process.env.MY_PRIVATE_KEY);
+
+    // 新しいアカウントを作成するためのプライベートキーを生成します
+    const newAccountPrivateKey = await PrivateKey.generate();
+    const newAccountPublicKey = newAccountPrivateKey.publicKey;
+
+    // 新しいアカウントを作成します
+    const newAccountTransaction = new AccountCreateTransaction()
+        .setKey(newAccountPublicKey)
+        .setInitialBalance(new Hbar(10)); // 10 HBarを初期残高として設定します
+
+    const newAccountResponse = await newAccountTransaction.execute(client);
+    const newAccountReceipt = await newAccountResponse.getReceipt(client);
+    const newAccountId = newAccountReceipt.accountId;
+
+    console.log(`新しいアカウントID: ${newAccountId}`);
+
+    // 新しいアカウントの残高を確認します
+    const balanceQuery = new AccountBalanceQuery().setAccountId(newAccountId);
+    const accountBalance = await balanceQuery.execute(client);
+    console.log(`新しいアカウントの残高: ${accountBalance.hbars.toString()}`);
+
+    // 既存のアカウントから新しいアカウントにHBarを転送します
+    const transferTransaction = new TransferTransaction()
+        .addHbarTransfer(client.operatorAccountId, new Hbar(-10)) // 送信者（既存のアカウント）
+        .addHbarTransfer(newAccountId, new Hbar(10)); // 受信者（新しいアカウント）
+
+    const transferResponse = await transferTransaction.execute(client);
+    const transferReceipt = await transferResponse.getReceipt(client);
+
+    console.log(`HBar転送ステータス: ${transferReceipt.status}`);
+
+    // 新しいアカウントの残高を再度確認します
+    const newBalanceQuery = new AccountBalanceQuery().setAccountId(newAccountId);
+    const newAccountBalance = await newBalanceQuery.execute(client);
+    console.log(`転送後の新しいアカウントの残高: ${newAccountBalance.hbars.toString()}`);
+}
+
+main().catch(console.error);
