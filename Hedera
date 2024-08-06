@@ -1,51 +1,183 @@
-const {
-    Client,
-    PrivateKey,
-    AccountCreateTransaction,
-    AccountBalanceQuery,
-    TransferTransaction,
-    Hbar
-} = require("@hashgraph/sdk");
+<!DOCTYPE html>
 
-async function main() {
-    // テストネットのクライアントを作成します
-    const client = Client.forTestnet();
-    client.setOperator(process.env.MY_ACCOUNT_ID, process.env.MY_PRIVATE_KEY);
+<html lang="en">
+ 
+ 
+ 反映
+ リンクとかファイル名とかを追加
+ サーバー反映
+ css改造
+ GITHUBにあげる　サーバーレンタル　銀行振り込みか
+ 
+ GITHUBで反映させる
+ 
+<head>
+<meta charset="UTF-8">
+<title= green>
+<link rel="stylesheet"  href="../style.css">
+</head>
+    
+<body>
 
-    // 新しいアカウントを作成するためのプライベートキーを生成します
-    const newAccountPrivateKey = await PrivateKey.generate();
-    const newAccountPublicKey = newAccountPrivateKey.publicKey;
 
-    // 新しいアカウントを作成します
-    const newAccountTransaction = new AccountCreateTransaction()
-        .setKey(newAccountPublicKey)
-        .setInitialBalance(new Hbar(10)); // 10 HBarを初期残高として設定します
+<header>
+<h1>green</h1>
+<li　class="menu-item">Features</li>
+<li　class="menu-item"">Pricing</li>
+<li　class="menu-item">Community</li>
+<li　class="menu-item">Support</li>
+</header>
 
-    const newAccountResponse = await newAccountTransaction.execute(client);
-    const newAccountReceipt = await newAccountResponse.getReceipt(client);
-    const newAccountId = newAccountReceipt.accountId;
+<button>Learn more</button>
+<button>Learn more</button>
 
-    console.log(`新しいアカウントID: ${newAccountId}`);
 
-    // 新しいアカウントの残高を確認します
-    const balanceQuery = new AccountBalanceQuery().setAccountId(newAccountId);
-    const accountBalance = await balanceQuery.execute(client);
-    console.log(`新しいアカウントの残高: ${accountBalance.hbars.toString()}`);
+<div class="example">
+<img src = "images/mori01.jpg">
+<h1>The largest community of photo enthusiasts</h1>
+<button>learn more</button>
+</div>
 
-    // 既存のアカウントから新しいアカウントにHBarを転送します
-    const transferTransaction = new TransferTransaction()
-        .addHbarTransfer(client.operatorAccountId, new Hbar(-10)) // 送信者（既存のアカウント）
-        .addHbarTransfer(newAccountId, new Hbar(10)); // 受信者（新しいアカウント）
 
-    const transferResponse = await transferTransaction.execute(client);
-    const transferReceipt = await transferResponse.getReceipt(client);
 
-    console.log(`HBar転送ステータス: ${transferReceipt.status}`);
 
-    // 新しいアカウントの残高を再度確認します
-    const newBalanceQuery = new AccountBalanceQuery().setAccountId(newAccountId);
-    const newAccountBalance = await newBalanceQuery.execute(client);
-    console.log(`転送後の新しいアカウントの残高: ${newAccountBalance.hbars.toString()}`);
-}
+<div class="Section01">
+<h1>The largest community of photo enthusiasts</h1>
+</div>
 
-main().catch(console.error);
+
+<section>
+<div class="content">
+<h3>The largest community of photo enthusiasts</h3>
+<button>learn more</button>
+</div>
+    
+<div class="content">
+<h3>Snap photos and share like never before</h3>
+<button>learn more</button>
+</div>
+
+    
+<div class="content">
+<h3>Snap photos and share like never before</h3>
+<button>learn more</button>
+</div>
+    
+    
+<div class="content">
+<h3>Snap photos and share like never before</h3>
+<button>learn more</button>
+</div>
+</section>
+
+
+
+<img src = "images/mori02.jpg">
+<h3>Lorem Ipsum</h3>
+<h5>Snap photos and share like never before</h5>
+
+
+
+
+<h3>Lorem Ipsum</h3>
+<h5>Snap photos and share like never before</h5>
+<img src = "images/mori03.jpg">
+    
+    
+    
+<img src = "images/mori02.jpg">
+<h3>Lorem Ipsum</h3>
+<h5>Snap photos and share like never before</h5>
+
+<img src = "images/mori02.jpg">
+<h3>Lorem Ipsum</h3>
+<h5>Snap photos and share like never before</h5>
+
+
+
+<div class="Section02">
+<p>Lorem Ipsum is simply dummy text of the printing</p>
+</div>
+<a href="#" class="btn-flat-logo">
+    
+  
+
+/*お問い合わせフォーム*/
+      <h1>お問い合わせフォーム</h1>
+      <?php if (isset($error_message)): ?>
+        <p style="color: red;"><?php echo $error_message; ?></p>
+      <?php endif; ?>
+      <?php if (isset($success_message)): ?>
+        <p style="color: green;"><?php echo $success_message; ?></p>
+      <?php endif; ?>
+      <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <label for="name">名前:</label>
+        <input type="text" id="name" name="name" required><br>
+        <label for="email">メールアドレス:</label>
+        <input type="email" id="email" name="email" required><br>
+        <label for="message">お問い合わせ内容:</label><br>
+        <textarea id="message" name="message" rows="5" required></textarea><br>
+        <input type="submit" value="送信">
+      </form>
+
+
+
+
+    
+    <h1>お問い合わせフォーム - 確認</h1>
+    <h2>入力内容をご確認ください</h2>
+    <p><strong>名前:</strong> <?php echo $name; ?></p>
+    <p><strong>メールアドレス:</strong> <?php echo $email; ?></p>
+    <p><strong>お問い合わせ内容:</strong> <?php echo $message; ?></p>
+    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+      <input type="hidden" name="name" value="<?php echo $name; ?>">
+      <input type="hidden" name="email" value="<?php echo $email; ?>">
+      <input type="hidden" name="message" value="<?php echo $message; ?>">
+      <input type="submit" value="送信">
+    </form>
+
+
+
+
+    
+    <h1>お問い合わせフォーム</h1>
+    <h2>お問い合わせが完了しました！</h2>
+    <p>お問い合わせ内容:</p>
+    <p><strong>名前:</strong> <?php echo $name; ?></p>
+    <p><strong>メールアドレス:</strong> <?php echo $email; ?></p>
+    <p><strong>お問い合わせ内容:</strong> <?php echo $message; ?></p>
+
+
+    <div class="slide-container">
+       <div class="slide-wrapper">
+          <img class="slide" src="画像の場所" alt="京都">
+          <img class="slide" src="画像の場所" alt="横浜">
+          <img class="slide" src="画像の場所" alt="良い街">
+       </div>
+       <div class="slide-wrapper">
+          <img class="slide" src="画像の場所" alt="京都">
+          <img class="slide" src="画像の場所" alt="横浜">
+          <img class="slide" src="画像の場所" alt="良い街">
+       </div>
+       <div class="slide-wrapper">
+          <img class="slide" src="画像の場所" alt="京都">
+          <img class="slide" src="画像の場所" alt="横浜">
+          <img class="slide" src="画像の場所" alt="良い街">
+       </div>
+    </div>
+    
+    
+
+
+<footer class=".menu-item">
+<h1>About</h1>
+<li>Mail</li>
+<li>Contact</li>
+<li>Community</li>
+<li>Support</li>
+</footer>
+
+
+
+</body>
+</html>
